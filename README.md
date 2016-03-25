@@ -16,12 +16,16 @@ Recommanded option is to create a shell script to setup your application on your
 `needfile linux/yum.nginx.repo /etc/yum.repos.d/ || return`
 
 
-### needyum - package with yum based distro (Centos/Red Hat/Fedora/Oracle Linux...)
+### needyum - rpm package on yum based linux distro (CentOS/Red Hat/Fedora/Oracle Linux...)
 `needyum nginx || return`
 
 
-### neednpm - package with NodeJS npm based
+### neednpm - NodeJS package / npm based
 `neednpm bower || return`
+
+
+### needpip - python package / pip based
+`needpip bower || return`
 
 
 ### needcmd - run an arbitrary shell command
