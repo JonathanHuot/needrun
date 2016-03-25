@@ -24,13 +24,14 @@ function needtool
 function needfile
 {
     src=$1
-    filename=$(basename $1)
     dest=$2
-    [ -f $dest/$filename ] && echo "$dest/$filename found" && return 0
+    filename=$(basename $1)
+    [[ -d $dest && $(diff -q $src $dest/$filename) == "" ]] && echo "$dest/$filename found" && return 0
+    [[ -f $dest && $(diff -q $src $dest) == "" ]] && echo "$dest found" && return 0
 
     [ ! -w $dest ] && echo "need permissions to $dest" && return 1
     
-    cp -f $wd/$src $dest/
+    cp -f $wd/$src $dest || return 1
     echo "$wd/$src copied to $dest."
     return 0
 }
@@ -42,7 +43,7 @@ function needyum
 
     rpmname=$1
     rpmshortname=$(echo $rpmname | awk -F/ '{print $NF}'|sed 's/.rpm$//')
-    rpm -q $rpmname > /dev/null || { echo "$rpmname already installed" && return 0; }
+    rpm -q "$rpmshortname" > /dev/null && { echo "$rpmname already installed" && return 0; }
 
     yum -y install $rpmname
     return $?
