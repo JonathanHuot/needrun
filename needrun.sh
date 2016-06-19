@@ -12,12 +12,21 @@ function needcmd
     return 0
 }
 
+function needuser
+{
+  user=$1
+  id $user 2> /dev/null || useradd -m photos || { echo "useradd failed" && return 1; }
+
+  echo "user $user found."
+  return 0
+}
+
 function needtool
 {
   tool=$1
   which $tool > /dev/null || { echo "please install $tool" && return 1; }
 
-  echo "$tool found."
+  echo "tool $tool found."
   return 0
 }
 
