@@ -1,41 +1,73 @@
-# needrun
-Project aims to be the shortest and simplest linux scripts to setup a brand new machine for an application.
+## needrun
 
-## Download and Install
-Make a copy of this file in your project
+needrun aims to be the shortest and simplest linux BASH script for deploying software on a machine. Its particularity is to be *idempotent*.
 
-`curl -O https://raw.githubusercontent.com/JonathanHuot/needrun/master/needrun.sh`
+## Installation
+ Download `needrun.sh` file
+
+```
+curl -O https://raw.githubusercontent.com/JonathanHuot/needrun/master/needrun.sh
+```
 
 ## Usage
-### needrun - boostrap
-Recommanded option is to create a shell script to setup your application on your server. Then, start with this line:
 
-`source <needrun.sh location>`
+Basic usage is to create a shell script containing needfile bootstrap and deployment instructions. Then, you only need to execute the shell script. Note that deployment instructions are not executed if already applied.
 
-### needfile - copy a file from your workspace
+## Documentation
+
+### bootstrap
+Required to have all the functions loaded
+
+`source needrun.sh`
+
+### needfile
+Copy a file from your workspace
+
 `needfile linux/yum.nginx.repo /etc/yum.repos.d/ || return`
 
+### needyum
+Install a RPM package on yum based Linux distro (CentOS/Red Hat/Fedora/Oracle Linux...)
 
-### needyum - rpm package on yum based linux distro (CentOS/Red Hat/Fedora/Oracle Linux...)
 `needyum nginx || return`
 
 
-### neednpm - NodeJS package / npm based
+### neednpm
+Install a NodeJS package / npm based
+
 `neednpm bower || return`
 
 
-### needpip - python package / pip based
+### needpip
+Install a python package / pip based
+
 `needpip bower || return`
 
 
-### needcmd - run an arbitrary shell command
+### needcmd
+Execute an arbitrary shell command - not *idempotent*
+
 `needcmd systemctl restart nginx || return`
 
 
-### needtool - check if a command is present
+### needtool
+Check if a command is present, and stop otherwise
+
 `needtool bower || return`
 
-## Full example of web python project using MongoDB on Centos7
+## Examples
+
+### Simple example
+
+It installs nginx, install a vhost file, then restart the service.
+```
+source needrun.sh
+needyum nginx || return
+needfile nginx.mywebsite.conf /etc/nginx/conf.d/ || return
+needcmd systemctl restart nginx || return
+needcmd systemctl enable nginx || return
+```
+
+### Advanced example of Web Python project using MongoDB on Centos7
 
 Below example is using `nginx` for HTTP web server, `supervisord` for running python application, `pip` for python packages, `npm` for NodeJS packages, `MongoDB` for database.
 Note that Node JS is installed to have some external tools like `lessc` or `bower`.
