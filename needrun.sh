@@ -38,8 +38,6 @@ function needfile
     [[ ! -f $src ]] && echo "source $src not found" && return 1
     [[ -d $dest && -r $dest/$filename && $(diff -q $src $dest/$filename) == "" ]] && echo "$dest/$filename found" && return 0
     [[ -f $dest && $(diff -q $src $dest) == "" ]] && echo "$dest found" && return 0
-
-    [ ! -w $dest ] && echo "need permissions to $dest" && return 1
     
     /bin/cp -f $wd/$src $dest || return 1
     echo "$wd/$src copied to $dest."
