@@ -44,6 +44,16 @@ function needfile
     return 0
 }
 
+# usage examples
+# needyum glibc-devel || return
+#
+# If you want to install a rpm by specifying an HTTP link, we cannot know in
+# advance the name of the RPM without downloading it. So, workaround is to
+# test the presence of the RPM before:
+# needcmd rpm -q epel-release \
+#     || needyum https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm \
+#     || return
+#
 function needyum
 {
     [ -z $__yum ] && { needtool yum > /dev/null || { echo "yum is missing, skip unsupported platform" && return; } }
