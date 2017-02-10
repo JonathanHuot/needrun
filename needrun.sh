@@ -61,7 +61,7 @@ function needyum
 
     rpmname=$1
     rpmshortname=$(echo $rpmname | awk -F/ '{print $NF}'|sed 's/.rpm$//')
-    rpm -q "$rpmshortname" > /dev/null && { echo "$rpmname already installed" && return 0; }
+    rpm -q --provides "$rpmshortname" > /dev/null && { echo "$rpmname already installed" && return 0; }
 
     yum -y install $rpmname
     return $?
