@@ -56,7 +56,7 @@ function needfile
 #
 function needyum
 {
-    [ -z $__yum ] && { needtool yum > /dev/null || { echo "yum is missing, skip unsupported platform" && return; } }
+    [ -z $__yum ] && { needtool yum > /dev/null || { echo "yum is missing, unsupported platform" && return 1; } }
     __yum=1
 
     rpmname=$1
@@ -69,7 +69,7 @@ function needyum
 
 function neednpm
 {
-    [ -z $__npm ] && { needtool npm > /dev/null || { echo "npm is missing, please install nodejs first" && return; } }
+    [ -z $__npm ] && { needtool npm > /dev/null || { echo "npm is missing, please install nodejs first" && return 1; } }
     __npm=1
 
     nodepackage=$1
@@ -81,7 +81,7 @@ function neednpm
 
 function needpip
 {
-    [ -z __pip ] && { needtool pip > /dev/null || { echo "pip is missing, please install python-pip first" && return; } }
+    [ -z __pip ] && { needtool pip > /dev/null || { echo "pip is missing, please install python-pip first" && return 1; } }
     __pip=1
 
     package=$1
