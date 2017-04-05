@@ -15,7 +15,7 @@ function needcmd
 function needuser
 {
   user=$1
-  id $user 2> /dev/null || useradd -m photos || { echo "useradd failed" && return 1; }
+  id "$user" 2> /dev/null || useradd -m "$user" || { echo "useradd $user failed" && return 1; }
 
   echo "user $user found."
   return 0
