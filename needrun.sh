@@ -1,6 +1,6 @@
 #!/bin/false
 
-wd=$(dirname $BASH_SOURCE)/../
+wd=$(dirname $BASH_SOURCE)
 
 unset __yum
 unset __npm
