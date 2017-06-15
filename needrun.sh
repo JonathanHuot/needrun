@@ -5,6 +5,7 @@ wd=$(dirname $BASH_SOURCE)
 unset __yum
 unset __npm
 unset __pip
+unset __git
 
 function needcmd
 {
@@ -42,6 +43,19 @@ function needfile
     /bin/cp -f $wd/$src $dest || return 1
     echo "$wd/$src copied to $dest."
     return 0
+}
+
+function needgit
+{
+    [ -z $__git ] && { needtool git > /dev/null || { echo "git is missing, please install git first" && return 1; } }
+    __git=1
+
+    url=$1
+    dest=$2
+    [ ! -d $dest/.git ] || git -C $dest pull --rebase --autoStash \
+        || { echo "git pull to $dest failed" && return 1; }
+    [ -d $dest/.git ] || mkdir -p $dest && git -C $dest clone $url \
+        || { echo "git clone $url to $dest failed" && return 1; }
 }
 
 # usage examples
