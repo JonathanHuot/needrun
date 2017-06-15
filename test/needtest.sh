@@ -16,7 +16,10 @@ needcmd fakediff foo bar && return 0
 
 needuser $USER || return 1
 
-needgit https://github.com/JonathanHuot/needrun.git $tmp || return 1
-needcmd grep needgit $tmp/needrun.sh || return 1
+pushd $tmp
+needgit https://github.com/JonathanHuot/needrun.git || return 1
+needgit https://github.com/JonathanHuot/needrun.git || return 1
+needcmd grep needcmd $tmp/needrun/needrun.sh || return 1
+popd
 
 return 0

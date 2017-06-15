@@ -51,11 +51,12 @@ function needgit
     __git=1
 
     url=$1
-    dest=$2
-    [ ! -d $dest/.git ] || git -C $dest pull --rebase --autoStash \
+    dest=$(basename $url|tr -d .git)
+    [ ! -d $dest/.git ] || git -C $dest pull --rebase --autostash \
         || { echo "git pull to $dest failed" && return 1; }
-    [ -d $dest/.git ] || mkdir -p $dest && git -C $dest clone $url \
+    [ -d $dest/.git ] || git clone $url $dest \
         || { echo "git clone $url to $dest failed" && return 1; }
+    return 0
 }
 
 # usage examples
