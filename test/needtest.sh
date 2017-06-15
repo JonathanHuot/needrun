@@ -7,11 +7,9 @@ wd=$(dirname $BASH_SOURCE)/..
 tmp=$(mktemp -d)
 
 needtool diff || return 1
-needcmd touch yy || return 1
-needfile yy zz || return 1
-needcmd diff yy zz || return 1
-
-needcmd rm -f yy zz || return 1
+needfile $wd/needrun.sh $tmp/yy || return 1
+needfile $tmp/yy $tmp/zz || return 1
+needcmd diff $tmp/yy $tmp/zz || return 1
 
 needtool fakediff && return 1
 needcmd fakediff foo bar && return 0

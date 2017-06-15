@@ -40,8 +40,8 @@ function needfile
     [[ -d $dest && -r $dest/$filename && $(diff -q $src $dest/$filename) == "" ]] && echo "$dest/$filename found" && return 0
     [[ -f $dest && $(diff -q $src $dest) == "" ]] && echo "$dest found" && return 0
     
-    /bin/cp -f $wd/$src $dest || return 1
-    echo "$wd/$src copied to $dest."
+    /bin/cp -f $src $dest || return 1
+    echo "$src copied to $dest."
     return 0
 }
 
